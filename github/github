@@ -1,0 +1,32 @@
+name: Build InstaX APK
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Install and Build Web App
+        run: |
+          npm install
+          npm run build
+      - name: Build APK with Capacitor
+        run: |
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap init InstaX com.abhi.instax --web-dir=dist || true
+          npx cap add android
+          npx cap copy android
+          cd android
+          chmod +x gradlew
+         ./gradlew assembleDebug
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: InstaX-APK-Final
+          path: android/app/build/outputs/apk/debug/app-debug.apk
