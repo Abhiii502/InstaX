@@ -1,0 +1,6 @@
+{
+  "name": "instaX",
+  "description": "Social feed and story sharing app with likes, comments, and media feed",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
